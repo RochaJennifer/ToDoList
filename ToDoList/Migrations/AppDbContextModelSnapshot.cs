@@ -21,7 +21,7 @@ namespace ToDoList.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ToDoList.Models.Tarefa", b =>
+            modelBuilder.Entity("ToDoList.Entities.Tarefa", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

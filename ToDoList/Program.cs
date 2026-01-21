@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using ToDoList.Data;
-//using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,16 +19,19 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+app.UseStaticFiles();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "ToDoList v1");
+        c.InjectStylesheet("/css/custom.css");
     });
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.MapControllers();
 
