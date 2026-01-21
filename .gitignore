@@ -421,3 +421,5 @@ FodyWeavers.xsd
 *.db
 *.db-shm
 *.db-wal
+
+appsettings.json
