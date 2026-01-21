@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ToDoList.Entities; 
+using ToDoList.Data;
 
 namespace ToDoList.Controllers;
 
@@ -7,47 +9,56 @@ namespace ToDoList.Controllers;
 [Route("api/[controller]")]
 public class ToDoListController : ControllerBase
 {
-    private static List<Tarefa> _tarefas = new List<Tarefa>();
-    private static int _proximoId = 1;
-
-    [HttpGet]
-    public ActionResult<List<Tarefa>> Get()
+    private readonly AppDbContext _context;
+    
+    public ToDoListController(AppDbContext context)
     {
-        return Ok(_tarefas);
+        _context = context;
     }
 
-    
     [HttpPost]
-    public ActionResult Post([FromBody] string descricao)
+    public async Task<ActionResult> Post([FromBody] string descricao)
     {
         var novaTarefa = new Tarefa 
-        { 
-            Id = _proximoId++, 
+        {  
             Descricao = descricao, 
             Concluida = false 
         };
         
-        _tarefas.Add(novaTarefa);
+        _context.Tarefas.Add(novaTarefa);
+        await _context.SaveChangesAsync();
+
         return CreatedAtAction(nameof(Get), novaTarefa);
     }
 
-    [HttpPut("{id}")]
-    public IActionResult Put(int id)
+    [HttpGet]
+    public async Task<ActionResult<List<Tarefa>>> Get()
     {
-        var tarefa = _tarefas.FirstOrDefault(t => t.Id == id);
+        return await _context.Tarefas.ToListAsync();
+    }
+
+    
+    
+
+    [HttpPut]
+        public async Task<IActionResult> Put(int id)
+    {
+        var tarefa = await _context.Tarefas.FindAsync(id);
         if (tarefa == null) return NotFound("Tarefa não encontrada.");
 
         tarefa.Concluida = true;
+        await _context.SaveChangesAsync();
         return Ok("Tarefa concluída com sucesso!");
     }
 
-    [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    [HttpDelete]
+    public async Task<IActionResult> Delete(int id)
     {
-        var tarefa = _tarefas.FirstOrDefault(t => t.Id == id);
+        var tarefa = await _context.Tarefas.FindAsync(id);
         if (tarefa == null) return NotFound();
 
-        _tarefas.Remove(tarefa);
+        _context.Tarefas.Remove(tarefa);
+        await _context.SaveChangesAsync();
         return Ok("Tarefa removida!");
     }
 }
