@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ToDoList.Models; 
+using ToDoList.Entities; 
 
 namespace ToDoList.Controllers;
 

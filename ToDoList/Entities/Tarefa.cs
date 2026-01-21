@@ -1,4 +1,4 @@
-namespace ToDoList.Models;
+namespace ToDoList.Entities;
 
 public class Tarefa
 {
