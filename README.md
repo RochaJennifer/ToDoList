@@ -5,7 +5,7 @@ Este projeto foi desenvolvido como um laboratório prático para o meu aprofunda
 ## 🎨 Interface do Projeto
 Abaixo, a demonstração da interface personalizada da API:
 
-![Preview da API Lilás](Interface API.png)
+![Preview da API Lilás](Interface-API.png)
 
 ## 🛠️ Tecnologias e Ferramentas
 
